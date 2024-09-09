@@ -1,0 +1,152 @@
+* {
+    font-family: Open Sans;
+    margin: auto;
+    padding: auto;
+  }
+  
+
+  .salary {
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    height: 120%;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+      ),
+      url("../../images/pexels-photo-114979.jpeg"); 
+    background-size: cover;
+    background-position: center;
+  }
+
+  .salary-create {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120%;
+     background: linear-gradient(
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+      ),
+      url("../../images/pexels-photo-114979.jpeg"); 
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .salary-create .Create-post {
+    width: 40%;
+    height: 440px;
+    margin: 10%;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #c762a1;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    margin-left: 8%;
+  }
+  
+  .salary-create .title {
+    font-style: inherit;
+    color: #b30059;
+    font-weight: bold;
+  }
+  
+  
+  .salary-create .Form-Group {
+    text-align: left;
+    display: block;
+    
+  }
+  
+  .salary-create .Form-Control {
+    width: 80%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #c762a1;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: block;
+    margin-left: 10%;
+  }
+  
+  .salary-create .Form-Cont{
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #a66f72;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  .package-report{
+    background-color: white;
+    background: white;
+  }
+  
+  /* App.js Styling Part */
+  
+  .salary .package-preview {
+    width: 300px;
+    padding: 20px;
+    margin: 30px;
+    border-style: solid;
+    border-width: 2px;
+    color: #c762a1;
+    display: inline-block;
+    font-weight: bold;
+    margin-left: 45px;
+  }
+  
+  .salary .package-preview:hover {
+    box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+  }
+  
+  .salary .package-preview button {
+    color: white;
+    background-color: #c762a1;
+    border: #dc6c8a;
+    border-width: 1px;
+    border-radius: 4px;
+    border-style: solid;
+    padding: 2%;
+    width: 30%;
+    font-size: 13px;
+  }
+  
+  .salary .package-preview h2{
+    color: black;
+    font-weight: bold;
+  }
+  
+  .salary .package-preview p{
+    font-size: 17px;
+    color: black;
+  }
+  
+  .salary .update{
+    color: white;
+    background-color: black;
+  }
+  
+  .salary button{
+    color: white;
+    background-color: #b30059;
+    border: #b30059;
+    border-width: 1px;
+    border-radius: 4px;
+    border-style: solid;
+    width: 15%;
+    height: 50%;
+    padding: 3px;
+    font-size: 15px;
+  }
+  
+  .salary button:hover{
+    box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+  }
+  
+  .salary .container button{
+    margin-left: 85%;
+  }

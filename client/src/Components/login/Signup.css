@@ -1,0 +1,125 @@
+.registration-form{
+	padding: 50px 0;
+}
+
+.back-body .registration-form{
+    /* background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgb(201, 9, 18) 100%); */
+    background-color: #f65365;
+}
+
+.error{
+    color: red;
+    margin-top: -5px;
+    margin-left: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    ;
+}
+
+.registration-form form{
+    background-color: #fff;
+    max-width: 600px;
+    max-height: 900px;
+    margin: auto;
+    padding: 0px 70px;
+    border-radius: 30px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+.registration-form .form-group{
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.registration-form .form-icon{
+	text-align: center;
+    background-color: #f65365;
+    border-radius: 50%;
+    font-size: 40px;
+    color: white;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 50px;
+    line-height: 100px;
+}
+
+.registration-form .item{
+	border-radius: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+
+.registration-form .create-account{
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f65365;
+    border: none;
+    color: white;
+    width: 50%;
+    margin-top: 20px;
+}
+
+.registration-form .subhead{
+    max-width: 600px;
+    background-color: #fff;
+    margin: auto;
+    padding: 35px 10px;
+    text-align: center;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    color: #000000;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+}
+
+.registration-form .text{
+    max-width: 600px;
+    background-color: #fff;
+    margin: auto;
+    margin-top: -30px;
+    padding: 35px 10px;
+    text-align: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: #000000;
+    font-family: monospace;
+}
+
+.registration-form .social-icons{
+    margin-top: 30px;
+    margin-bottom: 16px;
+}
+
+.registration-form .social-icons a{
+    font-size: 23px;
+    margin: 0 3px;
+    color: #a66f72;
+    border: 1px solid;
+    border-radius: 50%;
+    width: 45px;
+    display: inline-block;
+    height: 45px;
+    text-align: center;
+    background-color: #fff;
+    line-height: 45px;
+}
+
+.registration-form .social-icons a:hover{
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+@media (max-width: 576px) {
+    .registration-form form{
+        padding: 50px 20px;
+    }
+
+    .registration-form .form-icon{
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+        line-height: 70px;
+    }
+}

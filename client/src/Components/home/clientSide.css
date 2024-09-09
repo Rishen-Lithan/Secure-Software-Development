@@ -1,0 +1,36 @@
+.navbar {
+    padding: 1%;
+}
+
+*{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.nav-link-main{
+    margin-right: 220px;
+    text-decoration: none;
+    margin-left: -500%;
+    color:#000000;
+    font-size:24px;
+    font-weight: bold; 
+    margin-Left:5px;
+}
+
+.nav-link{
+    color:#ffffff;
+    font-size:20px;
+    margin-Right: 90px;
+}
+
+.nav-link-item{
+    color: #ffffff;
+    text-decoration: none;
+    font-size:20px;
+    margin-Right: 10px;
+}
+
+.text-reset{
+    text-decoration: none;
+}
+
+

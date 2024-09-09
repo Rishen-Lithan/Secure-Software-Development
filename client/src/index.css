@@ -1,0 +1,89 @@
+
+
+.btn-update{
+    background-color: #bc0059 ;
+    color:white;
+    border-radius: 5px;
+    width: 20%;
+    height: 37px;
+    border: none;
+
+}
+.btn-update:hover{
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.btn-delete{
+    background-color:#a66f72;
+    color:white;
+    border-radius: 5px;
+    width: 20%;
+    height: 37px;
+    border: none;
+
+}
+.btn-delete:hover{
+    background-color:white;
+    color: black;
+
+}
+
+.btn-generate{
+    background-color: #a66f72;
+    color:white;
+    border-radius: 5px;
+    width: 150px;
+    height: 37px;
+    border: none;
+}
+.btn-add{
+    background-color: #a66f72;
+    color:white;
+    border-radius: 5px;
+    width: 150px;
+    height: 37px;
+    border: none;
+}
+.btn-generate:hover{
+    transition: 0.1s;
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 1px black;
+}
+.btn-add:hover{
+    transition: 0.1s;
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 1px black;
+}
+
+.btn-report{
+    background-color: #a66f72;
+    color:white;
+    border-radius: 5px;
+    width: 150px;
+    height: 37px;
+    border: none;
+}
+.btn-report:hover{
+    transition: 0.1s;
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 1px black;
+}
+
+.btn-back{
+    background-color: gray;
+    color:white;
+    border-radius: 5px;
+    width: 150px;
+    height: 37px;
+    border: none;
+}
+.btn-back:hover{
+    transition: 0.1s;
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 1px black;
+}

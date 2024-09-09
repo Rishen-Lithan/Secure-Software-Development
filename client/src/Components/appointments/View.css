@@ -1,0 +1,46 @@
+.btn-update {
+    .btn-update {
+        border-Radius: 5px;
+        background: #b30059;
+        width: 10%;
+        font-size: 17px;
+        margin-Left: 20%;
+        color: #ffffff;
+    }
+
+    .btn-update:hover {
+        box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+
+    }
+
+    .btn-delete {
+        .btn-delete {
+            border-Radius: 5px;
+            background: #b30059;
+            width: 10%;
+            font-size: 17px;
+            margin-Left: 25%;
+            color: #ffffff;
+        }
+
+        .btn-delete:hover {
+            box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+
+        }
+
+
+
+        .view-form {
+            background: linear-gradient(rgba(255, 255, 255, 0.7),
+                    rgba(255, 255, 255, 0.3)),
+                url("../../images/appointment.jpg");
+            color: white;
+        }
+
+        .btn-delete:hover {
+            box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+
+
+        }
+    }
+}

@@ -1,0 +1,47 @@
+body{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+ background-color: #ccccff;
+}
+
+
+.CustServices{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  background-color: #ccccff;
+  
+     
+}
+
+.heading{
+    padding: 2%;
+    margin-top: 2%;
+    padding-left: 3%;
+    margin-left: 10%;
+    
+}
+
+.title{
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.header2{
+    width: 40%;
+    padding: 1%;
+    border-radius: 3%;
+    background-color: red;
+}
+
+.content{
+    font-size: 20px;
+    margin-top: 2%;
+    margin-left: 40%;
+    
+}
+
+.header2{
+    background-color: rgb(185, 187, 186);
+}
+
+.container{
+   
+}

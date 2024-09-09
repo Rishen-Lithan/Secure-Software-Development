@@ -1,0 +1,66 @@
+
+th, td {
+  border: 1px solid black;
+}
+
+  table {
+    border: 1px solid;
+    margin: 5px;
+    padding:5px;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .theadt{
+    width:100%;
+  }
+
+
+
+
+  .packages {
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+  }
+
+ 
+  
+  
+  .packages-create .Form-Group {
+    text-align: left;
+    display: block;
+    
+  }
+   
+  /* App.js Styling Part */
+  
+  .packages .update{
+    color: white;
+    background-color: black;
+  }
+  
+  .packages button{
+    color: white;
+    background-color: #b30059;
+    border: #b30059;
+    border-width: 1px;
+    border-radius: 4px;
+    border-style: solid;
+    width: 15%;
+    height: 50%;
+    padding: 3px;
+    font-size: 15px;
+  }
+  
+  .packages button:hover{
+    box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+  }
+  
+  .packages .container button{
+    margin-left: 85%;
+  }
+
