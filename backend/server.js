@@ -1,16 +1,26 @@
 // Import packages
 require('dotenv').config();
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser');
+const verifyJWT = require('./middleware/verifyJWT');
+const cookieParser = require('cookie-parser');
+const PORT = process.env.PORT || 3500;
+const connectDB = require('./config/dbConn');
 
 const app = express();
 
-// Use the middlewares to get the data to backend
-app.use(bodyParser.json());
+// Establish database connectivity
+connectDB();
+
+// Use the middlewares
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cookieParser());
+
+app.use('/register', require('./routes/auth/registerRoute'));
+app.use('/login', require('./routes/auth/loginRoute'));
+app.use('/refresh', require('./routes/auth/refreshTokenRoute'));
+app.use('/logout', require('./routes/auth/logoutRoute'));
 
 // Import the routes
 const userRoutes = require('./routes/userRoutes');
@@ -31,6 +41,7 @@ const salRoutes = require('./routes/salaryRoutes');
 
 
 // Routes
+app.use(verifyJWT);
 app.use("/api/users", userRoutes);
 app.use("/api/Post", packageRoutes);
 app.use("/api/Serv", serviceRoutes);
@@ -48,12 +59,8 @@ app.use("/api/sch", attendenceRoutes);
 app.use("/api/shedu", sheduleRoutes);
 app.use("/api/sal", salRoutes);
 
-// Error Handling for MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => console.error("MongoDB connection error: ", err));
-
-// Check the Server
-app.listen(3001, function () {
-    console.log("Server is running");
+// Database Connection & Server Connection
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });
