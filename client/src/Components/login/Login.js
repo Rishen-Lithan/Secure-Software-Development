@@ -1,158 +1,84 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import "./Signup.css";
+import "./Login.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
-
-    const history = useNavigate();
-
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [nameError, setNameError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [formError, setFormError] = useState('');
+    const [pwd, setPwd] = useState('');
+    const navigate = useNavigate();
 
-    const validateName = () => {
-        if (name.trim() === '') {
-          setNameError('Please enter a name');
-        } else {
-          setNameError('');
-        }
-      };
-      
-      const validateEmail = () => {
-        const re = /\S+@\S+\.\S+/;
-        if (email.trim() === '') {
-          setEmailError('Please enter an email');
-        } else if (!re.test(email)) {
-          setEmailError('Please enter a valid email');
-        } else {
-          setEmailError('');
-        }
-      };
-      
-      const validatePassword = () => {
-        if (password.trim() === '') {
-          setPasswordError('Please enter a password');
-        } else {
-          setPasswordError('');
-        }
-      };
-      
-
-
-      async function handleLogin(e) {
+    const handleLogin = async (e) => {
+      try {
         e.preventDefault();
-        
-        validateName();
-        validateEmail();
-        validatePassword();
-      
-        if (!nameError && !emailError && !passwordError) {
-          try {
-            const { data, status } = await axios.post('/api/users/login', {
-              email,
-              password,
-            });
-      
-            if (status === 200) {
 
-              localStorage.setItem("currentUser", JSON.stringify(data));
-              history ({state:{id:name}});
-              window.location.href = "/home";
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            pwd: pwd
+          }),
+        });
 
-            } else {
-              setFormError('Invalid Credentials.');
-            }
-          } catch (error) {
-            console.log(error);
-            setFormError('Invalid Credentials.');
-          }
-        } else {
-          setFormError('Please fill the required fields before submitting.');
+        if (!response.ok) {
+          const errorText = await response.text();
+          toast.error(`${JSON.parse(errorText).message}`); // Display error message
+          return;
         }
+
+        const responseJson = await response.json();
+
+        console.log('Login Response : ', responseJson);
+
+        toast.success('Login successful!');
+
+        setTimeout(() => {
+          navigate('home')
+        }, 1000);
+        
+      } catch (error) {
+        console.log('Login Failed : ', error);
+        toast.error(`${error.message}`);
       }
+    }
       
-
-
     return (
-        <div className="back-body">
-            <div className="registration-form">
-                <form action='POST'>
-                    <div className="subhead">
-                        <br />
-                        <h2>Admins Login</h2>
-                    </div>
-                    <div className="form-icon">
-                        <span><i className="icon icon-user"></i></span>
-                    </div>
-                    <div className="form-group">
+        <div className="form-container">
+          <form className='form' onSubmit={handleLogin}>
+              <input 
+                type="email"
+                id='email'
+                name='email'
+                className='form-label'
+                placeholder="Enter your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-                    <input
-                        type="name"
-                        className={`form-control item ${nameError ? 'is-invalid' : ''}`}
-                        value={name}
-                        onChange={(e) => {
-                            setName(e.target.value);
-                            validateName();
-                        }}
-                        placeholder="User Name"
-                        id=""
-                        />
-                        { nameError && <div className="invalid-feedback">{nameError}</div>}
-                        { formError && <div className="alert alert-danger">{formError}</div> }
+              <input 
+                type="password" 
+                name="pwd" 
+                id="pwd"
+                className='form-label'
+                placeholder="Enter your Password"
+                value={pwd}
+                onChange={(e) => setPwd(e.target.value)}
+              />
 
-                    </div>
+            <button className='button'>Sign In</button>
 
-                    <div className="form-group">
-                        <input 
-                        type="email" 
-                        className={`form-control item ${emailError ? 'is-invalid' : ''}`}
-                        value={email} 
-                        onChange={(e) => { 
-                            setEmail(e.target.value);
-                            validateEmail();
-                        }} 
-                        placeholder='Email' 
-                        id='' />
-                        { emailError && <div className="invalid-feedback">{emailError}</div>} 
-                        { formError && <div className="alert alert-danger">{formError}</div> }
-  
-                    </div>
-
-                    <div className="form-group">
-                        <input 
-                        type="password" 
-                        className={`form-control item ${passwordError ? 'is-invalid' : ''}`}
-                        value={password} 
-                        onChange={(e) => { 
-                            setPassword(e.target.value);
-                            validatePassword();
-                        }} 
-                        placeholder='Password' 
-                        id='' />
-                        { passwordError && <div className="invalid-feedback">{passwordError}</div>}  
-                        { formError && <div className="alert alert-danger">{formError}</div> } 
-
-                    </div>
-
-                    <center>
-                        <div className="form-group">
-                            <button type="submit" onClick={handleLogin} className="btn btn-block create-account float-Right ">Login</button>
-                        </div>
-                    </center>
-                    <div className="text">
-                            <h5>or</h5>
-                            <p>Don't have an account? </p>
-                            <a href="#"></a>
-                            <Link to="/signup" style={{ textDecoration: "none" }}><h5>Sign Up</h5></Link>
-                        </div>
-                    
-                </form>
+            <div className='row'>
+              <h4 className='link-Text'>Don't have an Account ?</h4>
+              <Link className='link-Value' to="/signup">Sign Up</Link>
             </div>
+
+          </form>
+          <ToastContainer />
         </div>
     )
 }

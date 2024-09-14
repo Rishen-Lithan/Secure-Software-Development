@@ -1,14 +1,32 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const handleNewUser = async (req, res) => {
     const { email, pwd } = req.body;
 
     if(!email || !pwd) return res.status(400).json({ 'message': 'Email and password are required'});
 
+    // Backend Input Field Validations
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ 'message': 'Invalid email format' });
+    }
+
+    const passwordMinLength = 8;
+    if (pwd.length < passwordMinLength) {
+        return res.status(400).json({ 'message': `Password must be at least ${passwordMinLength} characters long` });
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(pwd)) {
+        return res.status(400).json({ 'message': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character' });
+    }
+
     // check duplicate usernames in the database
     const duplicate = await User.findOne({ email: email }); // exec
-    if(duplicate) return res.sendStatus(409);
+    if (duplicate) {
+        return res.status(409).json({ 'message': 'Email is already in use' });
+    }
 
     try {
         // encrypt the password
