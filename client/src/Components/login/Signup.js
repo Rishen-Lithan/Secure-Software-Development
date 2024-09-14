@@ -1,47 +1,62 @@
 import "./Login.css";
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
-    const [name, setName] = useState('')
     const [email,setEmail] =useState('')
-    const [password,setPassword] = useState('')
-    const [error, setError] = useState(false)
-    const [message, setMessage] = useState('')
-    const goThere = useNavigate();
+    const [pwd,setPwd] = useState('');
+    const navigate = useNavigate();
 
-    async function signup(e){
-        e.preventDefault();
-
-        const user={ name, email, password }
-
+    const handleRegister = async (e) => {
         try {
-            const result=(await axios.post("/api/users/register",user)).data;
+            e.preventDefault();
 
-            setMessage(true);
-            setName("");
-            setEmail("");
-            setPassword("");
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    pwd: pwd
+                }),
+            });
 
-            window.location.reload();
+            if (!response.ok) {
+                const errorText = await response.text();
+                toast.error(`${JSON.parse(errorText).message}`); // Display error message
+                return;
+            }
+
+            const responseJson = await response.json();
+
+            console.log('Register Response : ', responseJson);
+
+            toast.success('User Registration successful!');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+            
         } catch (error) {
-            console.log(error);
-            setError(true)
-        } 
+            console.log('Registration Failed : ', error);
+            toast.error(`${error.message}`);
+        }
     }
-
-
   return (
     <div className="form-container">
-        <div className='form'>
+        <form className='form' onSubmit={handleRegister}>
             <input 
                 type="email"
                 id='email'
                 name='email'
                 className='form-label'
-                placeholder="Enter your Email"  
+                placeholder="Enter your Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email} 
             />
 
             <input 
@@ -50,6 +65,8 @@ export default function Signup() {
                 id="pwd"
                 className='form-label'
                 placeholder="Enter your Password"
+                onChange={(e) => setPwd(e.target.value)}
+                value={pwd}
             />
 
             <button className='button'>Sign Up</button>
@@ -58,7 +75,8 @@ export default function Signup() {
                 <h4 className='link-Text'>Already have an Account ?</h4>
                 <Link className='link-Value' to="/">Sign In</Link>
             </div>
-        </div>
+        </form>
+        <ToastContainer />
     </div>
   )
 }

@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -34,6 +36,12 @@ export default function Login() {
         const responseJson = await response.json();
 
         console.log('Login Response : ', responseJson);
+
+        const isAdmin = responseJson.roles.includes(5150);
+        setIsAdmin(isAdmin);
+
+        localStorage.setItem('accessToken', responseJson.accessToken);
+        localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
 
         toast.success('Login successful!');
 

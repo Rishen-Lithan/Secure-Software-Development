@@ -1,0 +1,128 @@
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  .packages {
+    padding: 2rem;
+    min-height: 100vh;
+  }
+  
+  .modal-title {
+    color: #b30059;
+  }
+  
+  .input-control {
+    width: 80%;
+    padding: 10px;
+    margin: 10px auto;
+    border: 1px solid #c762a1;
+    border-radius: 5px;
+    display: block;
+  }
+  
+  .modal-button {
+    border-radius: 5px;
+    background: #b30059;
+    padding: 10px;
+    width: 200px;
+    font-size: 17px;
+    color: white;
+    border: none;
+    margin-right: 10px;
+  }
+  
+  .search-bar {
+    width: 50%;
+    margin: 20px auto; /* Center the search bar */
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 20px 0;
+  }
+  
+  .action-button {
+    border-radius: 5px;
+    background: #b30059;
+    padding: 0.5rem 1rem;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .link-button {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .title {
+    color: #660033;
+    font-weight: bolder;
+    font-size: 40px;
+    text-align: center;
+  }
+  
+  .container {
+    text-align: center;
+    margin: 1rem 0;
+    margin-bottom: 20px;
+  }
+  
+  .sort-button {
+    background: #b30059;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .package-preview {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #f9f9f9;
+  }
+  
+  .delete-button {
+    color: white;
+    background: #3d3c3c;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .search-bar {
+      width: 80%;
+    }
+  
+    .input-control {
+      width: 100%;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .modal-button {
+      width: 100%;
+    }
+  
+    .title {
+      font-size: 32px;
+    }
+  }
+  

@@ -1,49 +1,73 @@
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"; //deleted the (, useEffect )
+import { useState, useEffect } from "react";
 import axios from "axios";
-import MainLayout from "../../layouts/MainLayout";
-
 
 function CreateService() {
-  const navigate = useNavigate();
-  const [post, setPost] = useState({
-    title: "",
-    type: "",
-    description: "",
-    price:"",
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target; //handleChange function is use to get input value
-
-    setPost((prev) => {
-      return {
-        ...prev,
-        [name]: value, //save the values and change the next value
-      };
+    const navigate = useNavigate();
+    const [post, setPost] = useState({
+        title: "",
+        type: "",
+        description: "",
+        price:"",
     });
-  };
-
-
     const [TitleerrorMessage, setTitleErrorMessage] = useState("");
     const [TypeerrorMessage, setTypeErrorMessage] = useState("");
     const [DescriptionerrorMessage, setDescriptionErrorMessage] = useState("");
-    const [PriceerrorMessage, setPriceErrorMessage] = useState("");   
+    const [PriceerrorMessage, setPriceErrorMessage] = useState("");
+    const [accessToken, setAccessToken] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    
+        setAccessToken(accessToken);
+        setIsAdmin(isAdmin);
+    
+        console.log('User Data : ', accessToken, isAdmin);
+        
+    }, []);
 
+    const handleChange = (event) => {
+        const { name, value } = event.target;
 
-  const handleClick = (event) => {
+        setPost((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+    };   
+
+    const handleClick = async (event) => {
+        event.preventDefault(); 
+        
         if (validateForm()) {
-            axios.post("/api/Post/create", post)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-
-            navigate("posts");
+          try {
+            const response = await fetch('/api/Post/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              },
+              body: JSON.stringify(post),
+            });
+      
+            if (!response.ok) {
+                console.log('Error');
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+      
+            const data = await response.json();
+            console.log('Response:', data);
+      
+            navigate('posts');
+          } catch (err) {
+            console.log('Error:', err);
+          }
         }
     };
- 
-
 
     const validateForm = () => {
         let valid = true;
@@ -97,69 +121,69 @@ function CreateService() {
     }
 
     return (
-        <div className="packages-create" style={{height:"140%"}}>
-
-        <div className="Create-post" style={{height:"85%"}}>
-            <h1 className="title">Create New Package</h1><br />
-            <Form className="Form">
-                <Form.Group className="Form-Group">
-                    <Form.Control className="Form-Control" 
+        <div className="packages-create">
+            <div className="create-post">
+                <h1 className="title">Create New Package</h1>
+                <Form className="form" onSubmit={handleClick}>
+                <Form.Group className="form-group">
+                    <Form.Control
+                        className="form-control"
                         id="title"
-                        name="title" 
+                        name="title"
                         value={post.title}
                         placeholder="Title"
                         onChange={handleChange}
-                        style={{width:"80%", marginLeft:"10%"}}
-                         />
+                    />
 
-                    { TitleerrorMessage && <div className="error" style={{marginLeft:"10%"}}>{TitleerrorMessage}</div> }
+                    {TitleerrorMessage && <div className="error">{TitleerrorMessage}</div>}
 
-                    
-                    <Form.Select id="type" name="type" className="Form-Control" 
-                        value={post.type} 
-                        placeholder="Package Type"
-                        onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
-                        required>
-                            <option selected>Select Package</option>
-                            <option>Daily Package</option>
-                            <option>Event Package</option>
-                            <option>Seasonal Package</option>
+                    <Form.Select
+                        id="type"
+                        name="type"
+                        className="form-control"
+                        value={post.type}
+                        onChange={handleChange}
+                        required
+                    >
+                    <option selected>Select Package</option>
+                    <option>Daily Package</option>
+                    <option>Event Package</option>
+                    <option>Seasonal Package</option>
                     </Form.Select>
+                    <br />
 
-                    { TypeerrorMessage && <div className="error" style={{marginLeft:"10%"}}>{TypeerrorMessage}</div> }
+                    {TypeerrorMessage && <div className="error">{TypeerrorMessage}</div>}
 
-
-                    <Form.Control id="description" className="Form-Control"
-                        name="description" 
+                    <Form.Control
+                        id="description"
+                        className="form-control"
+                        name="description"
                         value={post.description}
                         placeholder="Description"
-                        onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
-                         />
+                        onChange={handleChange}
+                    />
 
-                    { DescriptionerrorMessage && <div className="error" style={{marginLeft:"10%"}}>{DescriptionerrorMessage}</div> }
+                    {DescriptionerrorMessage && (
+                    <div className="error">{DescriptionerrorMessage}</div>
+                    )}
 
-                    <Form.Control id="price" className="Form-Control"
-                        name="price" 
+                    <Form.Control
+                        id="price"
+                        className="form-control"
+                        name="price"
                         value={post.price}
                         placeholder="Price"
-                        onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
-                         />
-                                           
-                    { PriceerrorMessage && <div className="error" style={{marginLeft:"10%"}}>{PriceerrorMessage}</div> }
+                        onChange={handleChange}
+                    />
 
+                    {PriceerrorMessage && <div className="error">{PriceerrorMessage}</div>}
                 </Form.Group>
-                <br />
-                < button style={{borderRadius:"5px", background:"#b30059", padding:"1.5%", width:"45%", fontSize:"17px", 
-                paddingLeft:"5px", paddingRight:"5px", border:"#b30059"}} onClick={handleClick}>CREATE PACKAGE</button>
-            </Form>
-            <br />
-            {/* <br />
-            <button style={{borderRadius:"5px", background:"#a66f72", padding:"0.5%"}} onClick={() => navigate(-1)}> BACK </button>   */}
+
+                <button className="create-button">CREATE PACKAGE</button>
+                </Form>
+            </div>
         </div>
-        </div>
+
     );
 };
 
