@@ -62,7 +62,7 @@ function CreateService() {
             const data = await response.json();
             console.log('Response:', data);
       
-            navigate('posts');
+            navigate('/posts');
           } catch (err) {
             console.log('Error:', err);
           }
@@ -124,7 +124,7 @@ function CreateService() {
         <div className="packages-create">
             <div className="create-post">
                 <h1 className="title">Create New Package</h1>
-                <Form className="form" onSubmit={handleClick}>
+                <Form className="form">
                 <Form.Group className="form-group">
                     <Form.Control
                         className="form-control"
@@ -179,7 +179,7 @@ function CreateService() {
                     {PriceerrorMessage && <div className="error">{PriceerrorMessage}</div>}
                 </Form.Group>
 
-                <button className="create-button">CREATE PACKAGE</button>
+                <button className="create-button" onClick={handleClick}>CREATE PACKAGE</button>
                 </Form>
             </div>
         </div>

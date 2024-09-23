@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import './package.css';
 import { useNavigate } from "react-router-dom";
 
-
 function App() {
     const [posts, setPosts] = useState([]);
     const [updatedPost, setUpdatedPost] = useState({})
@@ -51,9 +50,13 @@ function App() {
 
     const deletePost = (id) => {
         axios
-        .delete(`/api/Post/delete/${id}`)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .delete(`/api/Post/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        .then((res) => console.log('Delete Response :', res))
+        .catch((err) => console.log('Error Deleting :', err));
 
         window.location.reload();
     };
@@ -66,24 +69,33 @@ function App() {
     const handleChange = (e) => {
         const { name, value} = e.target;
 
-        if (validateUpdate()) {
-            setUpdatedPost((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                };
-            });
-        };
+        setUpdatedPost((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
     }
 
     const saveUpdatedPost = () => {
-        axios.put(`/api/Post/update/${updatedPost._id}`, updatedPost)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-
-        handleClose();
-        window.location.reload();
+        const accessToken = localStorage.getItem('accessToken');
+    
+        axios.put(`/api/Post/update/${updatedPost._id}`, updatedPost, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            console.log('Update Response : ', res);
+            handleClose();
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.log('Update Error', err);
+        });
     };
+    
 
     //Sorting function
     const [order, setOrder] = useState("ASC");
@@ -103,37 +115,6 @@ function App() {
                 setOrder("ASC");
         }
     };
-
-    const [post, setPost] = useState({
-        title: "",
-        type: "",
-        description: "",
-        price: "",
-    });
-
-  
-
-    const validateUpdate = () =>{
-        let valid = true ;
-
-        const validatePrice = document.getElementById('price');
-        if (post.price === '') {
-            validatePrice.setCustomValidity('Please Valid a Price');
-            setErrorPrice("Please Valid a Price");
-            valid = false;
-        } else if (isNaN(post.price)) {
-            validatePrice.setCustomValidity('Please Enter a Valid Price');
-            setErrorPrice("Please Enter a Valid Price");
-            valid = false;
-        }else{
-            validatePrice.setCustomValidity('');
-            setErrorType("");
-        }
-
-        return valid;
-    }
-
-
 
 return (
     <div className="packages">
@@ -203,14 +184,7 @@ return (
 
         {posts ? (
             <>
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
+
             <br /><br /><br /><br />
             <br /><br /><br /><br />
             
@@ -220,24 +194,10 @@ return (
                 <button className="sort-button" onClick={() => sorting("type")}>Sort by Type</button>
             </div>
 
-            <Form className="search-bar">
-                <InputGroup>
-                    <Form.Control
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search here"
-                    />
-                </InputGroup>
-            </Form>
-
             <div className="action-buttons">
-                <button className="action-button">
-                    <Link to="/posts/create" className="link-button">
+                <button style={{ color:"white", textDecoration:"none", marginLeft: '50px'}}>
+                    <Link to="/posts/create" style={{ color: 'white', textDecoration: 'none'}}>
                         Create New Package
-                    </Link>
-                </button>
-                <button className="action-button">
-                    <Link to="/posts/report" className="link-button">
-                        Download Package Menu
                     </Link>
                 </button>
             </div>
@@ -257,13 +217,13 @@ return (
                     <p>{post.type}</p>
                     <p>{post.description}</p>
                     <p>Rs. {post.price}.00</p>
-                    <button onClick={() => updatePost(post)}>UPDATE</button>
-                    <button
-                        className="delete-button"
-                        onClick={() => deletePost(post._id)}
-                    >
-                    DELETE
-                    </button>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <button onClick={() => updatePost(post)} style={{ color:"white", textDecoration:"none" }}>UPDATE</button>
+                        <button className="delete-button" onClick={() => deletePost(post._id)} style={{color:"white", textDecoration:"none"}}>
+                            DELETE
+                        </button>
+                    </div>
+                    
                 </div>
                 ))}
             </>

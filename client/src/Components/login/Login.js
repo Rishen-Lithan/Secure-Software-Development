@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import "./Login.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -84,6 +85,25 @@ export default function Login() {
               <h4 className='link-Text'>Don't have an Account ?</h4>
               <Link className='link-Value' to="/signup">Sign Up</Link>
             </div>
+
+            <GoogleLogin 
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+
+                const googleAccessToken = credentialResponse.credential;
+                localStorage.setItem('googleAccessToken', googleAccessToken);
+
+                toast.success('Google login successful!');
+                setTimeout(() => {
+                  navigate('/home');
+                }, 1000);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+                toast.error('Google login failed');
+              }}
+            />
+
 
           </form>
           <ToastContainer />

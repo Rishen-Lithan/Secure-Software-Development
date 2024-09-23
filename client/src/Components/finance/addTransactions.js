@@ -1,11 +1,10 @@
 import { Form } from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import './transactions.css';
+import './create.css';
 
 function CreatePost () {
-
     useEffect(() => {
         getDate();
     }, []);
@@ -20,6 +19,20 @@ function CreatePost () {
         reference:"",
     });
     const [date, setDate] = useState("");
+    const [accessToken, setAccessToken] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    
+        setAccessToken(accessToken);
+        setIsAdmin(isAdmin);
+    
+        console.log('User Data : ', accessToken, isAdmin);
+        
+    }, []);
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -31,22 +44,6 @@ function CreatePost () {
             };
         });
     };
-//add transaction form validation
-    const handleClick = (event) => {
-        event.preventDefault();
-
-        if( !data.amount || !data.type || !data.category || !data.date || !data.description || !data.reference){
-            alert("Please fill all the fields")
-        }
-        else{
-            axios.post("/api/Fin/add", data)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-
-            navigate("trans");
-        }
-        
-    };
 
     const getDate = () => {
         const date = new Date();
@@ -55,6 +52,7 @@ function CreatePost () {
         let currentYear = date.getFullYear();
         let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
         setDate(currentDate);
+
         setData({
             amount:"",
             type:"",
@@ -65,7 +63,37 @@ function CreatePost () {
         })
     }
 
+    const handleClick = async (event) => {
+        event.preventDefault();
 
+        console.log('Data : ', data);
+        console.log('Test User : ', accessToken, isAdmin);
+        
+        
+        try {
+            const response = await fetch('/api/Fin/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(data),
+            });
+    
+            if (!response.ok) {
+                console.log('Error');
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const responseData = await response.json(); // Renamed to responseData
+            console.log('Response:', responseData);
+    
+            navigate('/trans');
+        } catch (err) {
+            console.log('Error:', err);
+        }
+    };
+    
 
     return (
         <div className="finance-create">
@@ -79,14 +107,12 @@ function CreatePost () {
                         value={data.amount}
                         placeholder="Amount (LKR)"
                         onChange={handleChange}
-                        style={{width:"80%", marginLeft:"10%"}}
                         required />
                     
                     <Form.Select name="type" className="Form-Control" 
                         value={data.type} 
                         placeholder="Transaction Type"
                         onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
                         required>
                             <option>Transaction Type</option>
                             <option>Income</option>
@@ -98,7 +124,6 @@ function CreatePost () {
                         value={data.category} 
                         placeholder="Category"
                         onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
                         required>
                             <option>Select Category</option>
                             <option>Salary</option>
@@ -118,7 +143,6 @@ function CreatePost () {
                         value={data.date}
                         placeholder="Date"
                         onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
                         readOnly={true}
                         required />
                     <Form.Control className="Form-Control"
@@ -126,23 +150,19 @@ function CreatePost () {
                         value={data.description}
                         placeholder="Description"
                         onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
                         required />
                     <Form.Control className="Form-Control"
                         name="reference" 
                         value={data.reference}
                         placeholder="Reference"
                         onChange={handleChange} 
-                        style={{width:"80%", marginLeft:"10%"}}
                         required />
                 </Form.Group>
                 <br />
-                < button style={{borderRadius:"5px", background:"#b30059", padding:"1.5%", width:"45%", fontSize:"17px", 
+                < button style={{borderRadius:"5px", background:"#b30059", padding:"1.5%", width:"75%", fontSize:"13px", 
                 paddingLeft:"5px", paddingRight:"5px", border:"#b30059"}} onClick={handleClick}>ADD TRANSACTION</button>
             </Form>
             <br />
-            {/* <br />
-            <button style={{borderRadius:"5px", background:"#a66f72", padding:"0.5%"}} onClick={() => navigate(-1)}> BACK </button>   */}
         </div>
         </div>
     );

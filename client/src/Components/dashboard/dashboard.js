@@ -74,7 +74,7 @@ function Dashboard() {
           </center>
         ) : (
           <div className="container">
-            <button className="btn-func" onClick={() => navigate("/appointments")}>Appointment Management</button>
+            <button className="btn-func" onClick={() => navigate("/products")}> Inventory Management</button>
             <div className="container">
               <button className="logout" onClick={handleLogout}>Log Out</button>
             </div>

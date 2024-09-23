@@ -1,20 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, InputGroup } from "react-bootstrap";
-// import {useNavigate } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { Link } from "react-router-dom";
 import './appointment.css';
 
-
 function App() {
-    // const navigate = useNavigate();
-
-
     const [posts, setPosts] = useState([]);
     const [updatedPost, setUpdatedPost] = useState({})
     const [search, setSearch] = useState('');
-
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -81,15 +75,9 @@ function App() {
         }
     };
 
-
-
     return (
         <div className="appointments">
             <div className="none">
-                {/* style={{width:"90%", margin: "auto auto", textAlign: "center"}} */}
-
-                <br /><br />
-                {/* <button onClick={() => navigate(-1)}>BACK</button> */}
                 <Modal show={show} onHide={handleClose} >
                     <Modal.Header closeButton>
                         <Modal.Title style={{ color: "#b30059" }}>Update Your Appointment</Modal.Title>
@@ -188,42 +176,25 @@ function App() {
                                     name="service"
                                     value={updatedPost.service ? updatedPost.service : ""}
                                     onChange={handleChange}>
-
-                                    <option>Long Layer </option>
-                                    <option>Short Layer</option>
-                                    <option>Ladies Hair Cut</option>
-                                    <option>Curling </option>
-                                    <option>Straightening  </option>
-                                    <option>Keratin Treatment  </option>
-                                    <option>Colouring </option>
-                                    <option>Rebonding</option>
-                                    <option>Head Massage</option>
-                                    <option>Hair Style </option>
-                                    <option>Facial</option>
-                                    <option> Hair Style</option>
-                                    <option>Body Polishing </option>
-                                    <option>First Hair Cutting </option>
-                                    <option>Hair Cut Girls</option>
-                                    <option>Facial</option>
-                                    <option> Hair Style</option>
-                                    <option>Body Polishing </option>
-                                    <option>First Hair Cutting </option>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                        <option>Long Layer </option>
+                                        <option>Short Layer</option>
+                                        <option>Ladies Hair Cut</option>
+                                        <option>Curling </option>
+                                        <option>Straightening  </option>
+                                        <option>Keratin Treatment  </option>
+                                        <option>Colouring </option>
+                                        <option>Rebonding</option>
+                                        <option>Head Massage</option>
+                                        <option>Hair Style </option>
+                                        <option>Facial</option>
+                                        <option> Hair Style</option>
+                                        <option>Body Polishing </option>
+                                        <option>First Hair Cutting </option>
+                                        <option>Hair Cut Girls</option>
+                                        <option>Facial</option>
+                                        <option> Hair Style</option>
+                                        <option>Body Polishing </option>
+                                        <option>First Hair Cutting </option>
                                 </Form.Select>
                             </Form.Group>
                         </Form>
@@ -246,9 +217,7 @@ function App() {
                 </Modal>
 
                 {posts ? (
-
                     <div>
-
                         <Form>
                             <InputGroup className="my-1" style={{ width: "20%", marginLeft: "75%" }}>
                                 <Form.Control
@@ -256,11 +225,11 @@ function App() {
                                     placeholder="Search here" />
                             </InputGroup>
                         </Form>
-                        <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button style={{ borderRadius: "5px", background: "#b30059", padding: "0.5%" }}><Link to="/appointments/report" style={{ color: "white", textDecoration: "none" }}>Download Appointments</Link></button>
+                        
+                        <button style={{ borderRadius: "5px", background: "#b30059", padding: "0.5%" }}>
+                            <Link to="/appointments/report" style={{ color: "white", textDecoration: "none" }}>Download Appointments</Link>
+                        </button>
 
-                        <br /><br />
                         <center>
                             <h1 style={{ color: "#660033", fontWeight: "bolder", fontSize: "50px" }}>Salon Appointments</h1>
                         </center>
@@ -311,8 +280,6 @@ function App() {
                                                     <td>
                                                         <button style={{ width: "120%", marginLeft: '-20%', marginTop: "" }} onClick={() => deletePost(post._id)}>DELETE</button>
                                                     </td>
-
-
                                                 </tr >
                                             </tbody >
                                         );

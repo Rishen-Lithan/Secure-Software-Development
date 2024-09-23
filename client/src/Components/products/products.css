@@ -1,0 +1,82 @@
+.create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 250%;
+    max-width: 800px;
+    margin-left: -100px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.Form {
+    width: 100%;
+}
+
+.Form-Group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.Form-Control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.Form-Control:focus {
+    border-color: #b30059;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 0.5rem;
+}
+
+.add-product {
+    background-color: #b30059;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #99004d;
+}
+
+@media (max-width: 768px) {
+    .inventory-create {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .Form-Control {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}

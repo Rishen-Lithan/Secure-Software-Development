@@ -39,6 +39,9 @@ const attendenceRoutes = require('./routes/attendenceRoutes');
 const sheduleRoutes = require('./routes/sheduleRoutes');
 const salRoutes = require('./routes/salaryRoutes');
 
+app.use("/api/Book", appointmentRoutes);
+app.use("/api/Product", inventoryRoutes);
+
 
 // Routes
 app.use(verifyJWT);
@@ -47,11 +50,9 @@ app.use("/api/Post", packageRoutes);
 app.use("/api/Serv", serviceRoutes);
 app.use("/api/Sup", supplierRoutes);
 app.use("/api/Ord", orderRoutes)
-app.use("/api/Book", appointmentRoutes);
 app.use("/api/Ord", orderRoutes);
 app.use("/api/Msg", supMsgRoutes);
 app.use("/api/IMsg", inveMsgRoutes);
-app.use("/api/Product", inventoryRoutes);
 app.use("/api/emp", empRoutes);
 app.use("/api/CustPost", customPackRoutes);
 app.use("/api/Fin", financeRoutes);
