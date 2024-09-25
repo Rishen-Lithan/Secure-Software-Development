@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import './products.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreatePost () {
     const navigate = useNavigate();
@@ -13,12 +15,9 @@ function CreatePost () {
         rquantity: "",
         uquantity: "",
         totalPrice: "",
+        type: ""
     });
 
-    const [nameError, setNameError] = useState("");
-    const [rquantityError, setRquantityError] = useState("");
-    const [uquantityError, setUquantityError] = useState("");
-    const [totalpriceError, setTotalPriceError] = useState("");
     const [googleAccessToken, setGoogleAccessToken] = useState('');
 
     useEffect(() => {
@@ -44,74 +43,53 @@ function CreatePost () {
         });
     };
 
-    const handleClick = (event) => {
-        event.preventDefault();
-
-        console.log('Products : ', product);
-
+    const handleClick = async (event) => {
         const googleAccessToken = localStorage.getItem('googleAccessToken');
         
-
         if (googleAccessToken) {
-            if (validateCheck()) {
-                axios.post("/api/Product/add", product)
-                .then((res) => console.log(res))
-                .catch((err) => console.log(err));
-    
-                navigate("products");
-            }   
+            try {
+                event.preventDefault();
+
+                const response = await fetch('/api/Product/add', {
+                    method: 'POST',
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: product.name, 
+                        type: product.type, 
+                        category: product.category, 
+                        date: product.date, 
+                        rquantity: product.rquantity, 
+                        uquantity: product.uquantity, 
+                        totalPrice: product.totalPrice
+                    }),
+                  });
+          
+                  if (!response.ok) {
+                    const errorText = await response.text();
+                    toast.error(`${JSON.parse(errorText).message}`);
+                    return;
+                  }
+          
+                  const responseJson = await response.json();
+          
+                  console.log('Product Create Response : ', responseJson);
+          
+                  toast.success('Product Created Successful!');
+
+                  navigate("products");
+                          
+            } catch (error) {
+                console.log('Login Failed : ', error);
+                toast.error(`${error.message}`);
+            }    
+                
         } else {
             console.log('UnAuthorized');
         }
     };
-
-    
-    const validateCheck = () => {
-        let valid = true;
-
-        const ProductName = document.getElementById('name');
-        if (product.name === '') {
-            ProductName.setCustomValidity('Please Enter a Name');
-            setNameError("Please Enter a Name")
-            valid = false;
-        } else {
-            ProductName.setCustomValidity('');
-            setNameError("");
-        }
-
-        const ProductRquantity = document.getElementById('rquantity');
-        if (product.rquantity === '') {
-            ProductRquantity.setCustomValidity('Please Enter a Remaining Quantity');
-            setRquantityError("Please Enter a Remaining Quantity")
-            valid = false;
-        } else {
-            ProductRquantity.setCustomValidity('');
-            setRquantityError("");
-        }
-
-        const ProductUquantity = document.getElementById('uquantity');
-        if (product.uquantity === '') {
-            ProductUquantity.setCustomValidity('Please Enter a Used Quantity');
-            setUquantityError("Please Enter a Used Quantity")
-            valid = false;
-        } else {
-            ProductUquantity.setCustomValidity('');
-            setUquantityError("");
-        }
-
-        const ProductTotalPrice = document.getElementById('totalPrice');
-        if (product.totalPrice === '') {
-            ProductTotalPrice.setCustomValidity('Please Enter a Used Total Price');
-            setTotalPriceError("Please Enter a Total Price ")
-            valid = false;
-        } else {
-            ProductTotalPrice.setCustomValidity('');
-            setTotalPriceError("");
-        }
-
-        return valid;
-
-    }
 
     return (
         <div className="create-form">
@@ -127,8 +105,6 @@ function CreatePost () {
                             onChange={handleChange}
                             required 
                         />
-
-                        { nameError && <div className="error" style={{marginLeft:"10%"}}>{nameError}</div> }
 
                         <Form.Select 
                             className="Form-Control"
@@ -157,6 +133,16 @@ function CreatePost () {
 
                         <Form.Control 
                             className="Form-Control"
+                            id="type"  
+                            name="type" 
+                            value={product.type}
+                            placeholder="Product Type"
+                            onChange={handleChange}
+                            required 
+                        />
+
+                        <Form.Control 
+                            className="Form-Control"
                             id="date" 
                             name="date" 
                             value={product.date}
@@ -175,8 +161,6 @@ function CreatePost () {
                             required 
                         />
                         
-                        { rquantityError && <div className="error" style={{marginLeft:"10%"}}>{rquantityError}</div> }
-
                         <Form.Control 
                             className="Form-Control"
                             id="uquantity" 
@@ -186,7 +170,6 @@ function CreatePost () {
                             onChange={handleChange} 
                             required 
                         />
-                        { uquantityError && <div className="error" style={{marginLeft:"10%"}}>{uquantityError}</div> }
                         
                         <Form.Control 
                             className="Form-Control"
@@ -198,11 +181,11 @@ function CreatePost () {
                             required 
                         />
                         
-                        { totalpriceError && <div className="error" style={{marginLeft:"10%"}}>{totalpriceError}</div> }
                     </Form.Group>
 
                     <button onClick={handleClick} className="add-product">Add Product</button>
                 </Form>
+                <ToastContainer />
         </div>
     );
 }

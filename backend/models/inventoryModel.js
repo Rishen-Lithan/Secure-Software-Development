@@ -10,20 +10,24 @@ const inventorySchema = mongoose.Schema(
             type: String,
             required:true
         },
+        type:{
+            type: String,
+            required:true
+        },
         date:{
             type: String,
             required:true
         },
         rquantity:{
-            type: String,
+            type: Number,
             required:true
         },
         uquantity:{
-            type: String,
+            type: Number,
             required:true
         },
         totalPrice:{
-            type: String,
+            type: Number,
             required:true
         },
     },
