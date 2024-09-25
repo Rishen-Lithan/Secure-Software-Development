@@ -1,13 +1,15 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {Form, InputGroup } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Import Toast CSS
 import './transactions.css';
 
 function App() {
     const [data, setData] = useState([]);
-    const [updatedPost, setUpdatedPost] = useState({})
+    const [updatedPost, setUpdatedPost] = useState({});
     const [search, setSearch] = useState('');
     const [income, SetIncome] = useState(0);
     const [expenses, SetExpenses] = useState(0);
@@ -50,7 +52,7 @@ function App() {
         let amount2 = 0;
         if(data){
             data.map((post) => {
-                if(post.type == "Income"){
+                if(post.type === "Income"){
                     amount1 = amount1 + post.amount;
                 }
                 else{
@@ -66,19 +68,22 @@ function App() {
     //delete validation
     const deletePost = (id) => {
         let text = "Do you want to delete";
-        if (window.confirm(text) == true) {
+        if (window.confirm(text) === true) {
             axios
             .delete(`/api/Fin/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-            
-            window.location.reload();
+            .then((res) => {
+                toast.success("Transaction deleted successfully!");  // Show success toast on delete
+                setData(data.filter(post => post._id !== id)); // Remove the deleted post from state
+            })
+            .catch((err) => {
+                toast.error("Failed to delete the transaction.");  // Show error toast
+                console.log(err);
+            });
         } 
-
     };
 
     const updatePost = (post) => {
@@ -87,7 +92,7 @@ function App() {
     }
 
     const handleChange = (e) => {
-        const { name, value} = e.target;
+        const { name, value } = e.target;
 
         setUpdatedPost((prev) => {
             return {
@@ -97,7 +102,37 @@ function App() {
         });
     };
 
+    // Validate fields before saving the updated post
+    const validateFields = () => {
+        if (!updatedPost.amount || updatedPost.amount <= 0) {
+            toast.error("Please enter a valid amount!");
+            return false;
+        }
+        if (!updatedPost.type) {
+            toast.error("Please select a transaction type!");
+            return false;
+        }
+        if (!updatedPost.category) {
+            toast.error("Please select a category!");
+            return false;
+        }
+        if (!updatedPost.description) {
+            toast.error("Description is required!");
+            return false;
+        }
+        if (!updatedPost.reference) {
+            toast.error("Reference is required!");
+            return false;
+        }
+        return true;
+    }
+
     const saveUpdatedPost = () => {
+        // Validate fields before making API call
+        if (!validateFields()) {
+            return;
+        }
+
         const accessToken = localStorage.getItem('accessToken');
         axios.put(`/api/Fin/update/${updatedPost._id}`, updatedPost, {
             headers: {
@@ -105,11 +140,16 @@ function App() {
                 'Content-Type': 'application/json'
             }
         })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => {
+            toast.success("Transaction updated successfully!");  // Show success toast on update
+            setData(data.map(post => post._id === updatedPost._id ? updatedPost : post)); // Update the data state
+        })
+        .catch((err) => {
+            toast.error("Failed to update the transaction.");  // Show error toast
+            console.log(err);
+        });
 
         handleClose();
-        window.location.reload();
     };
 
     //Sorting function
@@ -133,6 +173,9 @@ function App() {
 return (
     <div className="finance">
     <div>
+        {/* ToastContainer to display the messages */}
+        <ToastContainer position="top-right" autoClose={5000} />
+
         <Modal show={show} onHide={handleClose} >
             <Modal.Header closeButton>
                 <Modal.Title style={{color:"#b30059"}}>Update Transactions</Modal.Title>

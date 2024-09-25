@@ -9,6 +9,7 @@ const connectDB = require('./config/dbConn');
 
 const app = express();
 
+
 // Establish database connectivity
 connectDB();
 
