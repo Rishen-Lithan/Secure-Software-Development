@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mogoose": "^0.0.1-security",
     "mongoose": "^7.0.2",
+    "react-toastify": "^10.0.5",
     "validator": "^13.12.0"
   }
 }

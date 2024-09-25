@@ -4,7 +4,6 @@
   padding: auto;
 }
 
-
 .packages {
   align-items: center;
   justify-content: center;
@@ -18,7 +17,7 @@
   background-position: center;
 }
 
-.package-report{
+.package-report {
   background-color: white;
   background: white;
 }
@@ -51,22 +50,22 @@
   font-size: 13px;
 }
 
-.packages .package-preview h2{
+.packages .package-preview h2 {
   color: black;
   font-weight: bold;
 }
 
-.packages .package-preview p{
+.packages .package-preview p {
   font-size: 17px;
   color: black;
 }
 
-.packages .update{
+.packages .update {
   color: white;
   background-color: black;
 }
 
-.packages button{
+.packages button {
   color: white;
   background-color: #b30059;
   border: #b30059;
@@ -79,10 +78,18 @@
   font-size: 15px;
 }
 
-.packages button:hover{
+.packages button:hover {
   box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
 }
 
-.packages .container button{
+.packages .container button {
   margin-left: 85%;
+}
+
+.input-control {
+  margin: 10px;
+}
+
+.modal-button {
+  border-radius: 5px;
 }
