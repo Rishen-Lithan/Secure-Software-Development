@@ -1,290 +1,235 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {Form, InputGroup } from "react-bootstrap";
-// import {useNavigate } from "react-router-dom";
+import { Form, InputGroup } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { Link } from "react-router-dom";
 import './package.css';
 import { useNavigate } from "react-router-dom";
 
-
 function App() {
-// const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
+    const [updatedPost, setUpdatedPost] = useState({})
+    const [search, setSearch] = useState('');
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [errorTitle, setErrorTitle] = useState("");
+    const [errorType, setErrorType] = useState("");
+    const [errorDescription, setErrorDescription] = useState("");
+    const [errorPrice, setErrorPrice] = useState("");
+    const [accessToken, setAccessToken] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
+    const navigate = useNavigate();
 
-// const navigate = useNavigate();
-const [posts, setPosts] = useState([]);
-const [updatedPost, setUpdatedPost] = useState({})
-const [search, setSearch] = useState('');
-console.log(search);
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    
+        setAccessToken(accessToken);
+        setIsAdmin(isAdmin);
+    
+        console.log('User Data : ', accessToken, isAdmin);
 
-const [show, setShow] = useState(false);
-const handleClose = () => setShow(false);
-const handleShow = () => setShow(true);
+        getPost(accessToken);
+        
+    }, []);
 
-const navigate = useNavigate();
-
-useEffect(() => {
-    axios.get("/api/Post/posts")
+    const getPost = (accessToken) => {
+        axios.get("/api/Post/posts", {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
         .then((res) => {
-            console.log(res)
+            console.log(res);
             setPosts(res.data);
         })
         .catch((err) => console.log(err));
-}, []);
+    }
 
-const deletePost = (id) => {
-axios
-.delete(`/api/Post/delete/${id}`)
-.then((res) => console.log(res))
-.catch((err) => console.log(err));
+    const deletePost = (id) => {
+        axios
+        .delete(`/api/Post/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        .then((res) => console.log('Delete Response :', res))
+        .catch((err) => console.log('Error Deleting :', err));
 
-window.location.reload();
-};
-
-const updatePost = (post) => {
-setUpdatedPost(post);
-handleShow();
-}
-
-const handleChange = (e) => {
-const { name, value} = e.target;
-
-if (validateUpdate()) {
-    setUpdatedPost((prev) => {
-        return {
-            ...prev,
-            [name]: value,
-        };
-    });
-    };
-}
-
-
-const saveUpdatedPost = () => {
-        axios.put(`/api/Post/update/${updatedPost._id}`, updatedPost)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
-        handleClose();
         window.location.reload();
+    };
+
+    const updatePost = (post) => {
+        setUpdatedPost(post);
+        handleShow();
+    }
+
+    const handleChange = (e) => {
+        const { name, value} = e.target;
+
+        setUpdatedPost((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+    }
+
+    const saveUpdatedPost = () => {
+        const accessToken = localStorage.getItem('accessToken');
     
-};
+        axios.put(`/api/Post/update/${updatedPost._id}`, updatedPost, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            console.log('Update Response : ', res);
+            handleClose();
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.log('Update Error', err);
+        });
+    };
+    
 
-//Sorting function
-const [order, setOrder] = useState("ASC");
-const sorting = (col) =>{
-  if(order ==="ASC"){
-    const sorted = [...posts].sort((a,b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1);
+    //Sorting function
+    const [order, setOrder] = useState("ASC");
+    const sorting = (col) =>{
+        if(order ==="ASC"){
+            const sorted = [...posts].sort((a,b) =>
+                a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1);
+                setPosts(sorted);
+                setOrder("DESC");
+        }
 
-        setPosts(sorted);
-        setOrder("DESC");
-  }
-  if(order ==="DESC"){
-    const sorted = [...posts].sort((a,b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1);
+        if(order ==="DESC") {
+            const sorted = [...posts].sort((a,b) =>
+                a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1);
 
-        setPosts(sorted);
-        setOrder("ASC");
-    }
-  };
-
-  const [post, setPost] = useState({
-    title: "",
-    type: "",
-    description: "",
-    price: "",
-  });
-
-  const [errorTitle, setErrorTitle] = useState("");
-  const [errorType, setErrorType] = useState("");
-  const [errorDescription, setErrorDescription] = useState("");
-  const [errorPrice, setErrorPrice] = useState("");
-
-  const validateUpdate = () =>{
-    let valid = true ;
-
-    const validatePrice = document.getElementById('price');
-    if (post.price === '') {
-        validatePrice.setCustomValidity('Please Valid a Price');
-        setErrorPrice("Please Valid a Price");
-        valid = false;
-    } else if (isNaN(post.price)) {
-        validatePrice.setCustomValidity('Please Enter a Valid Price');
-        setErrorPrice("Please Enter a Valid Price");
-        valid = false;
-    }else{
-        validatePrice.setCustomValidity('');
-        setErrorType("");
-    }
-
-    return valid;
-  }
-
-
+                setPosts(sorted);
+                setOrder("ASC");
+        }
+    };
 
 return (
     <div className="packages">
-    <div>
-        {/* style={{width:"90%", margin: "auto auto", textAlign: "center"}} */}
-        
-      <br /><br />
-        {/* <button onClick={() => navigate(-1)}>BACK</button> */}
-        <Modal show={show} onHide={handleClose} >
+        <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title style={{color:"#b30059"}}>Update Package</Modal.Title>
+                <Modal.Title className="modal-title">Update Package</Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{width:"100%", height:"200%"}}>
+            <Modal.Body>
                 <Form>
                     <Form.Group>
-                        <Form.Control 
-                            style={{width: "80%",
-                                    padding: "6px 10px",
-                                    margin: "10px 0",
-                                    border: "1px solid #c762a1",
-                                    borderRadius: "5px",
-                                    boxSizing: "border-box",
-                                    display: "block",
-                                    marginLeft: "10%"}}
-                                    id="title"
-                            placeholder="title"
+                        <Form.Control
+                            className="input-control"
+                            id="title"
+                            placeholder="Title"
                             name="title"
-                            value={updatedPost.title ? updatedPost.title : ""}
-                            onChange={handleChange}/>
-
-                            {errorTitle && <div className="error">{errorTitle}</div>}
+                            value={updatedPost.title || ""}
+                            onChange={handleChange}
+                        />
+                        {errorTitle && <div className="error">{errorTitle}</div>}
 
                         <Form.Select
-                            style={{width: "80%",
-                            padding: "6px 10px",
-                            margin: "10px 0",
-                            border: "1px solid #c762a1",
-                            borderRadius: "5px",
-                            boxSizing: "border-box",
-                            display: "block",
-                            marginLeft: "10%"}}
-                            placeholder="type"
+                            className="input-control"
                             name="type"
                             id="type"
-                            value={updatedPost.type ? updatedPost.type : ""}
-                            onChange={handleChange}>
-                                <option>Package Type</option>
-                                <option>Daily Package</option>
-                                <option>Event Package</option>
-                                <option>Seasonal Package</option>
-                            </Form.Select>
-                            {errorType && <div className="error">{errorType}</div>}
+                            value={updatedPost.type || ""}
+                            onChange={handleChange}
+                        >
+                            <option>Package Type</option>
+                            <option>Daily Package</option>
+                            <option>Event Package</option>
+                            <option>Seasonal Package</option>
+                        </Form.Select>
+                        {errorType && <div className="error">{errorType}</div>}
 
-
-                        <Form.Control 
-                            style={{width: "80%",
-                            padding: "6px 10px",
-                            margin: "10px 0",
-                            border: "1px solid #c762a1",
-                            borderRadius: "5px",
-                            boxSizing: "border-box",
-                            display: "block",
-                            marginLeft: "10%"}}
+                        <Form.Control
+                            className="input-control"
                             id="description"
-                            placeholder="description"
+                            placeholder="Description"
                             name="description"
-                            value={updatedPost.description ? updatedPost.description : ""}
-                            onChange={handleChange}/>
+                            value={updatedPost.description || ""}
+                            onChange={handleChange}
+                        />
+                        {errorDescription && <div className="error">{errorDescription}</div>}
 
-                            {errorDescription && <div className="error">{errorDescription}</div>}
-
-                            
-                        <Form.Control 
-                            style={{width: "80%",
-                            padding: "6px 10px",
-                            margin: "10px 0",
-                            border: "1px solid #c762a1",
-                            borderRadius: "5px",
-                            boxSizing: "border-box",
-                            display: "block",
-                            marginLeft: "10%"}}
-                            placeholder="price"
+                        <Form.Control
+                            className="input-control"
+                            placeholder="Price"
                             name="price"
                             id="price"
-                            value={updatedPost.price ? updatedPost.price : ""}
-                            onChange={handleChange}/>
-
-                            {errorPrice && <div className="error">{errorPrice}</div>}
-
+                            value={updatedPost.price || ""}
+                            onChange={handleChange}
+                        />
+                        {errorPrice && <div className="error">{errorPrice}</div>}
 
                     </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <button style={{borderRadius:"5px", background:"#b30059", padding:"1.5%", width:"200px", fontSize:"17px", 
-                border:"#b30059", marginRight:"25%"}} onClick={handleClose}>
+                <button className="modal-button" onClick={handleClose}>
                     Close
                 </button>
-                <br />
-                <button style={{borderRadius:"5px", background:"#b30059", padding:"1.5%", width:"200px", fontSize:"17px", 
-                border:"#b30059", marginRight:"25%"}} onClick={saveUpdatedPost}>
+                <button className="modal-button" onClick={saveUpdatedPost}>
                     Save Changes
                 </button>
             </Modal.Footer>
         </Modal>
 
         {posts ? (
-            
             <>
-            
-            <Form>
-                <InputGroup className="my-1" style={{width:"20%", marginLeft:"75%"}}>
-                    <Form.Control 
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search here"/>
-                </InputGroup>
-            </Form>
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button style={{borderRadius:"5px", background:"#b30059", padding:"0.5%"}}><Link to="/posts/create" style={{color:"white", textDecoration:"none"}}>Create New Package</Link></button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button style={{borderRadius:"5px", background:"#b30059", padding:"0.5%"}}><Link to="/posts/report" style={{color:"white", textDecoration:"none"}}>Download Package Menu</Link></button>
-            
-                <br /><br />
-                <center>
-                    <h1 style={{color:"#660033", fontWeight:"bolder", fontSize:"50px"}}>Salon Packages</h1>
-                </center>
 
-                <div className="container">
-                <button onClick={() => sorting("type")}>Sort by Type</button>&nbsp;
-                {/* <button onClick={() => sorting("price")}>Sort by Price</button> */}
-                </div>
-                <br />
+            <br /><br /><br /><br />
+            <br /><br /><br /><br />
+            
+            <h1 className="title">Salon Packages</h1>
+
+            <div className="container">
+                <button className="sort-button" onClick={() => sorting("type")}>Sort by Type</button>
+            </div>
+
+            <div className="action-buttons">
+                <button style={{ color:"white", textDecoration:"none", marginLeft: '50px'}}>
+                    <Link to="/posts/create" style={{ color: 'white', textDecoration: 'none'}}>
+                        Create New Package
+                    </Link>
+                </button>
+            </div>
+
+
+            {posts
+                .filter((post) => {
+                return search.toLowerCase() === ""
+                    ? post
+                    : post.title.toLowerCase().includes(search) ||
+                        post.type.toLowerCase().includes(search) ||
+                        post.description.toLowerCase().includes(search);
+                })
+                .map((post) => (
+                <div key={post._id} className="package-preview">
+                    <h2>{post.title}</h2>
+                    <p>{post.type}</p>
+                    <p>{post.description}</p>
+                    <p>Rs. {post.price}.00</p>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <button onClick={() => updatePost(post)} style={{ color:"white", textDecoration:"none" }}>UPDATE</button>
+                        <button className="delete-button" onClick={() => deletePost(post._id)} style={{color:"white", textDecoration:"none"}}>
+                            DELETE
+                        </button>
+                    </div>
                     
-                        {posts.filter((post) => {
-                            return search.toLowerCase() === ''
-                                ? post
-                                : post.title.toLowerCase().includes(search) ||
-                                  post.type.toLowerCase().includes(search) ||
-                                  post.description.toLowerCase().includes(search)
-                        })
-                        .map((post) => {
-                    return (
-
-                            <div key={post._id} className = "package-preview" >
-                                <center>
-                                    <h2>{post.title}</h2>
-                                    <p>{post.type}</p>
-                                    <p>{post.description}</p>
-                                    <p>Rs. {post.price}.00</p>
-                                        <button onClick={() => updatePost(post)}>UPDATE</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <button style={{color:"white", background:"#3d3c3c", border:"black"}} onClick={() => deletePost(post._id)}>DELETE</button><br />
-                                    
-                                </center>
-                            </div>   
-                    );
-                })}
+                </div>
+                ))}
             </>
         ) : (
-          ""
+            ""
         )}
-    </div>
     </div>
 );
 }

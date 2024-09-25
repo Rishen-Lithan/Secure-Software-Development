@@ -1,107 +1,82 @@
-import "./Signup.css";
+import "./Login.css";
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
-
-
-    const [name, setName] = useState('')
     const [email,setEmail] =useState('')
-    const [password,setPassword] = useState('')
-    const [error, setError] = useState(false)
-    const [message, setMessage] = useState('')
-    const goThere = useNavigate();
+    const [pwd,setPwd] = useState('');
+    const navigate = useNavigate();
 
-    async function signup(e){
-        e.preventDefault();
-
-        const user={
-            name,
-            email,
-            password
-
-            
-        }
-
+    const handleRegister = async (e) => {
         try {
-            const result=(await axios.post("/api/users/register",user)).data;
-            setMessage(true);
+            e.preventDefault();
 
-        setName("");
-        setEmail("");
-        setPassword("");
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    pwd: pwd
+                }),
+            });
 
-        window.location.reload();
+            if (!response.ok) {
+                const errorText = await response.text();
+                toast.error(`${JSON.parse(errorText).message}`); // Display error message
+                return;
+            }
 
+            const responseJson = await response.json();
 
+            console.log('Register Response : ', responseJson);
+
+            toast.success('User Registration successful!');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+            
         } catch (error) {
-            console.log(error);
-            setError(true)
+            console.log('Registration Failed : ', error);
+            toast.error(`${error.message}`);
         }
-
-       
-        
     }
-
-
   return (
-    <div className="back-body">
+    <div className="form-container">
+        <form className='form' onSubmit={handleRegister}>
+            <input 
+                type="email"
+                id='email'
+                name='email'
+                className='form-label'
+                placeholder="Enter your Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email} 
+            />
 
+            <input 
+                type="password" 
+                name="pwd" 
+                id="pwd"
+                className='form-label'
+                placeholder="Enter your Password"
+                onChange={(e) => setPwd(e.target.value)}
+                value={pwd}
+            />
 
-<div className="registration-form">
-        <form action='POST'>
-            <div className="subhead">
-            <h2>Create an Account</h2></div>
-            <div className="form-icon">
-                <span><i className="icon icon-user"></i></span>
+            <button className='button'>Sign Up</button>
+
+            <div className='row'>
+                <h4 className='link-Text'>Already have an Account ?</h4>
+                <Link className='link-Value' to="/">Sign In</Link>
             </div>
-            <div className="form-group">
-            <input type="name" className="form-control item" onChange={(e) =>{setName(e.target.value)}} placeholder='User Name' id='' />
-            {error && name.length<=0?
-            <label className="error">User Name cannot be empty !!</label>:""}
-            </div>
-            
-
-            <div className="form-group">
-            <input type="email" className="form-control item" onChange={(e) =>{setEmail(e.target.value)}} placeholder='Email' id='' />
-            {error && email.length<=0?
-            <label className="error">Email cannot be empty !!</label>:""}
-            </div>
-            
-
-            <div className="form-group">
-            <input type="password" className="form-control item" onChange={(e) =>{setPassword(e.target.value)}} placeholder='Password' id='' />
-            {error && password.length<=0?
-            <label className="error">Password cannot be empty !!</label>:""}
-            <p className="error">{message}</p>
-            </div>
-            
-            
-            
-            <div className="form-group">
-                <center>
-                    <button type="submit" onClick={signup} className="btn btn-block create-account">Create Account</button>
-                </center>
-            </div>
-
-            <div className="text">
-            <h5>or</h5>
-            <p>Already have an account? </p>
-                
-                <Link to="/" style={{textDecoration:'none'}}><h5>Login</h5></Link>
-            
-        </div>
-    
-
-             
         </form>
-       
-    </div>
-
-    
-    
+        <ToastContainer />
     </div>
   )
 }

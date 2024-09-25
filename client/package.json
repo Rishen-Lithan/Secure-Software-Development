@@ -2,8 +2,9 @@
   "name": "salon-packages",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3500",
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@syncfusion/ej2-react-calendars": "^21.2.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -19,9 +20,10 @@
     "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
-    "react-time-picker": "^6.0.4",
     "react-table": "^7.8.0",
+    "react-time-picker": "^6.0.4",
     "react-to-print": "^2.14.12",
+    "react-toastify": "^10.0.5",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
     "web-vitals": "^2.1.4"

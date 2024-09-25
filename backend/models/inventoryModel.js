@@ -6,10 +6,6 @@ const inventorySchema = mongoose.Schema(
             type: String,
             required:true
         },
-        type:{
-            type: String,
-            required:true
-        },
         category:{
             type: String,
             required:true
@@ -19,11 +15,11 @@ const inventorySchema = mongoose.Schema(
             required:true
         },
         rquantity:{
-            type: Number,
+            type: String,
             required:true
         },
         uquantity:{
-            type:Number,
+            type: String,
             required:true
         },
         totalPrice:{

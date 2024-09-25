@@ -138,12 +138,11 @@ function App() {
                 <Route path='/products/add/products' element={<Products />} />
                 <Route path='/products/report' element={<ProductsPdf/>} />
 
-
-                
                 <Route path='/products' element={<Products />} />
                 <Route path='/products/add' element={<CreateProduct />} />
                 <Route path='/products/add/products' element={<Products />} />
                 <Route path='/products/report' element={<ProductsPdf/>} /> 
+
                 <Route path='/emp' element={<Employees />} />
                 <Route path='/emp/add' element={<AddEmployee />} />
                 <Route path='/emp/add/emp' element={<Employees />} />

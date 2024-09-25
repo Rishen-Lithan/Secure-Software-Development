@@ -1,239 +1,82 @@
-* {
-  font-family: Open Sans;
-  margin: auto;
-  padding: auto;
+.create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 250%;
+    max-width: 800px;
+    margin-left: -100px;
 }
 
-
-.packages {
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
-  height: 120%;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url("../../images/pexels-photo-114979.jpeg");
-  background-size: cover;
-  background-position: center;
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
 }
 
-.packages-create {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120%;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url("../../images/pexels-photo-114979.jpeg");
-  background-size: cover;
-  background-position: center;
+.Form {
+    width: 100%;
 }
 
-.packages-create .Create-post {
-  width: 40%;
-  height: 440px;
-  margin: 10%;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #c762a1;
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 5px;
-  margin-left: 8%;
+.Form-Group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.packages-create .title {
-  font-style: inherit;
-  color: #b30059;
-  font-weight: bold;
-}
-
-
-.packages-create .Form-Group {
-  text-align: left;
-  display: block;
-  
-}
-
-.packages-create .Form-Control {
-  width: 80%;
-  padding: 6px 10px;
-  margin: 10px 0;
-  border: 1px solid #c762a1;
-  border-radius: 5px;
-  box-sizing: border-box;
-  display: block;
-  margin-left: 10%;
-}
-
-.packages-create .Form-Cont{
-  width: 100%;
-  padding: 6px 10px;
-  margin: 10px 0;
-  border: 1px solid #a66f72;
-  border-radius: 5px;
-  box-sizing: border-box;
-  display: block;
-}
-
-.package-report{
-  background-color: white;
-  background: white;
-}
-
-/* App.js Styling Part */
-
-
-
-
-.packages {
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
-  height: 120%;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url("../../images/pexels-photo-114979.jpeg");
-  background-size: cover;
-  background-position: center;
-}
-
-.packages-create {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120%;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url("../../images/pexels-photo-114979.jpeg");
-  background-size: cover;
-  background-position: center;
-}
-
-.packages-create .Create-post {
-  width: 40%;
-  height: 440px;
-  margin: 10%;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #c762a1;
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 5px;
-  margin-left: 8%;
-}
-
-.packages-create .title {
-  font-style: inherit;
-  color: #b30059;
-  font-weight: bold;
-}
-
-
-.packages-create .Form-Group {
-  text-align: left;
-  display: block;
-  
-}
-
-.packages-create .Form-Control {
-  width: 80%;
-  padding: 6px 10px;
-  margin: 10px 0;
-  border: 1px solid #c762a1;
-  border-radius: 5px;
-  box-sizing: border-box;
-  display: block;
-  margin-left: 10%;
-}
-
-.packages-create .Form-Cont{
-  width: 100%;
-  padding: 6px 10px;
-  margin: 10px 0;
-  border: 1px solid #a66f72;
-  border-radius: 5px;
-  box-sizing: border-box;
-  display: block;
-}
-
-.package-report{
-  background-color: white;
-  background: white;
-}
-
-/* App.js Styling Part */
-
-.packages .package-preview {
-  width: 300px;
-  padding: 20px;
-  margin: 30px;
-  border-style: solid;
-  border-width: 2px;
-  color: #c762a1;
-  display: inline-block;
-  font-weight: bold;
-  margin-left: 45px;
-}
-
-.packages .package-preview:hover {
-  box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
-}
-
-
-
-.packages .package-preview h2{
-  color: black;
-  font-weight: bold;
-}
-
-.packages .package-preview p{
-  font-size: 17px;
-  color: black;
-}
-
-.packages .update{
-  color: white;
-  color: #c762a1;
-  background-color: black;
-}
-
-
-
-.actionupdate{
-  
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-
-    color: #c762a1;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+.Form-Control {
+    width: 100%;
+    padding: 0.75rem;
     font-size: 16px;
-  
-
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.packages button:hover{
-  box-shadow: 1px 3px 5px rgba(10, 10, 10, 10);
+.Form-Control:focus {
+    border-color: #b30059;
 }
 
-.packages .container button{
-  margin-left: 85%;
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 0.5rem;
 }
 
-.btnSort{
-   background:#b30059;
-   color: white;
-   width: 10%;
+.add-product {
+    background-color: #b30059;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #99004d;
+}
+
+@media (max-width: 768px) {
+    .inventory-create {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .Form-Control {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
 }
