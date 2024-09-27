@@ -21,9 +21,13 @@ This project identifies and fixes security vulnerabilities using open-source tes
 - Nalinka G.K - IT21467448
 - Jayawardena R.R.A.N.N - IT21894510
 
-## GitHub Repositories
-- **Before Fix:** [GitHub Repository (Before fix)](https://github.com/Rishen-Lithan/Isuru-Salon-ITP-Project)
-- **After Fix:** [GitHub Repository (After fix)](https://github.com/Rishen-Lithan/Secure-Software-Development)
-- **YouTube Vedio Link :**https://youtu.be/SJWAQlZlemo
+## Before Fix
+- [Isuru Salon ITP Project (Before fix)](https://github.com/Rishen-Lithan/Isuru-Salon-ITP-Project)
+
+## After Fix
+- [Secure Software Development (After fix)](https://github.com/Rishen-Lithan/Secure-Software-Development)
+
+## YouTube Video
+- [Watch on YouTube](https://youtu.be/SJWAQlZlemo)
 
 Note-code is in Dev-Lithan
